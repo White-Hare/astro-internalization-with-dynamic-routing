@@ -3,20 +3,15 @@ import { redirectToDefaultLocale } from "astro:i18n"; // function available with
 import { supportedLangues } from "../translate";
 
 export const languageMiddleware = defineMiddleware((ctx, next) => {
-    const ignoredPaths = [
-        ...supportedLangues.map((lang) => `/${lang}`),
-        '/api',
-        '/assets',
-        '/static',
-    ];
 
     const pathName = ctx.url.pathname;
 
-    if (ignoredPaths.some((path) => pathName.startsWith(path))) {
+    if (ignorePath(pathName)) {
         return next();
     }
 
     let cookieLang = ctx.cookies.get('language')?.value;
+
 
     if (!cookieLang && ctx.preferredLocale) {
         cookieLang = ctx.preferredLocale;
@@ -29,3 +24,15 @@ export const languageMiddleware = defineMiddleware((ctx, next) => {
 
     return redirectToDefaultLocale(ctx, 302);
 });
+
+function ignorePath(pathName: string) {
+    const ignoredPaths = [
+        ...supportedLangues.map((lang) => `/${lang}`),
+        '/api',
+        '/assets',
+        '/static',
+        './'
+    ];
+
+    return ignoredPaths.some((ignoredPath) => pathName.startsWith(ignoredPath));
+}

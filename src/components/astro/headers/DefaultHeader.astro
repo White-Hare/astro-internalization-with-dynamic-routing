@@ -2,10 +2,10 @@
 import { LanguageSwapButton } from "@pw/vue-components";
 import { getTranslation } from "@pw/translate";
 
-
 const translate = getTranslation(Astro.url);
 
-const currentLanguage = Astro.cookies.get("language")?.value || "en"; // Default to "en" if cookie is not set
+const currentLanguage =
+  Astro.cookies.get("language")?.value || Astro.preferredLocale || "tr"; // Default to "tr" if cookie is not set
 const targetLanguage = currentLanguage === "en" ? "tr" : "en";
 ---
 
