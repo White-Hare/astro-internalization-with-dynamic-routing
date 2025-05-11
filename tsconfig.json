@@ -1,0 +1,12 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@pw/*": ["src/*"],
+      "@pw/vue-components": ["src/components/vue/index.ts"],
+      "@pw/translate": ["src/translate/index.ts"],
+    }
+  }
+}

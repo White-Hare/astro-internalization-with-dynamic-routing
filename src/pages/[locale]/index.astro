@@ -1,0 +1,11 @@
+---
+import Layout from "@pw/layouts/Layout.astro";
+
+export const prerender = false;
+
+export async function getStaticPaths() {
+  return [{ params: { locale: "en" } }, { params: { locale: "tr" } }];
+}
+---
+
+<Layout title="Mete ARSLAN" />

@@ -1,0 +1,18 @@
+{
+    "files.autoSave": "afterDelay",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.formatOnSave": true,
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "javascript.suggest.completeFunctionCalls": true,
+    "typescript.suggest.completeFunctionCalls": true,
+    "js/ts.implicitProjectConfig.checkJs": true,
+    "debug.javascript.autoAttachFilter": "always",
+    "debug.javascript.terminalOptions": {
+        "skipFiles": [
+            "<node_internals>/**"
+        ]
+    },
+    "css.customData": [
+        ".vscode/tailwind.json"
+    ]
+}
