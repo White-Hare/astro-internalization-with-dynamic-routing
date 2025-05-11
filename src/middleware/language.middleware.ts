@@ -31,7 +31,7 @@ function ignorePath(pathName: string) {
         '/api',
         '/assets',
         '/static',
-        './'
+        '/.'
     ];
 
     return ignoredPaths.some((ignoredPath) => pathName.startsWith(ignoredPath));
