@@ -12,10 +12,6 @@ export default defineConfig({
     },
     routing: "manual"
   },
-  routing: {
-    prefixDefaultLocale: true, // Ensures that your default locale is prefixed aswell
-    redirectToDefaultLocale: true,
-  },
   integrations: [
     vue(),
     tailwind({
