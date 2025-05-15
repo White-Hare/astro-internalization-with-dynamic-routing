@@ -1,20 +1,4 @@
 <div id="top"></div>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -66,7 +50,7 @@
 
 In this project I implemented an alternative way for internalization with dynamic routing and cookies in Astro. Although it's not the best practice to disable _prerending_ you have to disable in pages for being able to use cookies. This method also doesn't prevent use of alternative translation methods.
 
-You can also check libraries like [astro-i18next](https://github.com/yassinedoghri/astro-i18next).
+You can also check libraries like [astro-i18next](https://github.com/yassinedoghri/astro-i18next), [paraglide](https://inlang.com/m/gerre34r/library-inlang-paraglideJs/astro).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -98,6 +82,10 @@ You can also check libraries like [astro-i18next](https://github.com/yassinedogh
 
 ### Configure Astro
 
+First lets start with configuration. We have to define i18n settings. I used Turkish and English languages for my project and default locale for my website was Turkish. Also for this project Turkish language have been designated as fallback language.
+
+Finally routing set to manual. Also you can use options like _prefixDefaultLocale_ I found manual routing with middleware much more easier to handle.
+
 astro.config.mjs
 
 ```js
@@ -125,6 +113,8 @@ export default defineConfig({
 ```
 
 ### Translation Files
+
+After some configuration we have to create our translation methods and files. Functions themselves are pretty straight forward. We get translations from json files and from the url we decide which language to use.
 
 src/translate/index.ts
 
@@ -170,6 +160,8 @@ src/translate/en.json
 
 ### Set Language Endpoint
 
+For being able to hold user language preference I used cookies. Create an endpoint to set language cookie.
+
 src/pages/api/set-language.ts
 
 ```ts
@@ -191,6 +183,10 @@ export const POST: APIRoute = async ({ cookies, request }) => {
 ```
 
 ### Language Middleware
+
+Middleware is for deciding which endpoint user should be redirected. First we check language cookie to find if user has set a language. If cookie is _undefined_ than we check preferredLocale from the request. If both _language cookie_ and _preferred locale_ is _undefined_ user will be redirected to default language.
+
+You should also not interrupt the requests that are not require language redirection (Like API request, asset requests etc.). So we added _ignorPath_ function.
 
 src/middleware/index.ts
 
@@ -243,6 +239,8 @@ function ignorePath(pathName: string) {
 
 ### Disable Prerendering
 
+You have to disable prerending in pages that you want to get language preference from cookies.
+
 src/pages/index.astro
 
 ```astro
@@ -252,6 +250,8 @@ export const prerender = false;
 ```
 
 ### Add Dynamic Routing
+
+Finally we have to add dynamic routing for creating multiple versions of pages. Create a _[locale]_ folder under the pages and add your other pages that requires translation.
 
 src/pages/[locale]/index.astro
 
@@ -270,6 +270,8 @@ export async function getStaticPaths() {
 ```
 
 ### Add Components
+
+I also added simple _Layout.astro_ component for this project. There is a default slot for rendering page content and named slots for header, footer components.
 
 src/layouts/Layout.astro
 
@@ -314,6 +316,8 @@ const { title } = Astro.props;
 </html>
 ```
 
+To get translation call getTranslation function that we have created and give page's url to it. For this example I also passed _targetLanguage_ as a parameter to a vue component for being able to swap between the languages. You can also use other frameworks or simply add inline javascript to Astro components.
+
 src/components/astro/headers/DefaultHeader.astro
 
 ```astro
@@ -336,6 +340,8 @@ const targetLanguage = currentLanguage === "en" ? "tr" : "en";
 ```
 
 ### Call Set Language Endpoint
+
+To change the language we have to send a request to _/api/set-language_
 
 src/components/vue/buttons/LanguageSwapButton.vue
 
@@ -367,8 +373,6 @@ async function onClick() {
   </Button>
 </template>
 ```
-
-### Final
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -415,7 +419,3 @@ Project Link: [https://github.com/white-hare/astro-internalization-with-dynamic-
 [license-url]: https://github.com/white-hare/astro-internalization-with-dynamic-routing/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badLinkedInge/--black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://tr.linkedin.com/in/metearslan
-
-```
-
-```
