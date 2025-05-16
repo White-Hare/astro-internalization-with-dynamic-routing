@@ -48,7 +48,7 @@
 
 ## About The Project
 
-In this project I implemented an alternative way for internalization with dynamic routing and cookies in Astro. Although it's not the best practice to disable _prerending_ you have to disable in pages for being able to use cookies. This method also doesn't prevent use of alternative translation methods.
+This project demonstrates an alternative approach to internationalization in Astro using dynamic routing and cookies. While disabling prerendering is not generally recommended, it is necessary on pages that rely on cookies for language detection. This method also doesn't prevent use of alternative translation methods.
 
 You can also check libraries like [astro-i18next](https://github.com/yassinedoghri/astro-i18next), [paraglide](https://inlang.com/m/gerre34r/library-inlang-paraglideJs/astro).
 
@@ -84,7 +84,7 @@ You can also check libraries like [astro-i18next](https://github.com/yassinedogh
 
 First lets start with configuration. We have to define i18n settings. I used Turkish and English languages for my project and default locale for my website was Turkish. Also for this project Turkish language have been designated as fallback language.
 
-Finally routing set to manual. Also you can use options like _prefixDefaultLocale_ I found manual routing with middleware much more easier to handle.
+Routing is set to manual. While options like _prefixDefaultLocale are available, manual routing combined with middleware is easier to manage in this setup.
 
 astro.config.mjs
 
@@ -114,7 +114,7 @@ export default defineConfig({
 
 ### Translation Files
 
-After some configuration we have to create our translation methods and files. Functions themselves are pretty straight forward. We get translations from json files and from the url we decide which language to use.
+After some configuration we have to create our translation methods and files. The functions are straightforward. We get translations from json files and from the url we decide which language to use.
 
 src/translate/index.ts
 
@@ -160,7 +160,7 @@ src/translate/en.json
 
 ### Set Language Endpoint
 
-For being able to hold user language preference I used cookies. Create an endpoint to set language cookie.
+To hold user language preference I used cookies. Create an endpoint to set language cookie.
 
 src/pages/api/set-language.ts
 
@@ -184,7 +184,7 @@ export const POST: APIRoute = async ({ cookies, request }) => {
 
 ### Language Middleware
 
-Middleware is for deciding which endpoint user should be redirected. First we check language cookie to find if user has set a language. If cookie is _undefined_ than we check preferredLocale from the request. If both _language cookie_ and _preferred locale_ is _undefined_ user will be redirected to default language.
+The middleware determines which endpoint the user should be redirected to. First we check language cookie to find if user has set a language. If cookie is _undefined_ than we check preferredLocale from the request. If both _language cookie_ and _preferredLocale_ is _undefined_ user will be redirected to default language.
 
 You should also not interrupt the requests that are not require language redirection (Like API request, asset requests etc.). So we added _ignorPath_ function.
 
@@ -341,7 +341,8 @@ const targetLanguage = currentLanguage === "en" ? "tr" : "en";
 
 ### Call Set Language Endpoint
 
-To change the language we have to send a request to _/api/set-language_
+To change the language, send a request to */api/set-language*.
+
 
 src/components/vue/buttons/LanguageSwapButton.vue
 
